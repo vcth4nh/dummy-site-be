@@ -8,7 +8,7 @@ dummy_data = [
     {
         "id": 6,
         "content": "Chào mọi người, mình vừa hoàn thành báo cáo tài chính quý 2. Tình hình rất khả quan! 📊",
-        "img": "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg",
+        "img": "sample.jpg",
         "date": "2024-07-29"
     },
     {
@@ -26,13 +26,13 @@ dummy_data = [
     {
         "id": 9,
         "content": "Mình mới xem bộ phim mới ra mắt hôm qua, rất hay và xúc động. Khuyên mọi người nên xem! 🎬",
-        "img": "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg",
+        "img": "sample.jpg",
         "date": "2024-07-29"
     },
     {
         "id": 11,
         "content": None,
-        "img": "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg",
+        "img": "sample.jpg",
         "date": "2024-07-29"
     },
     {
@@ -74,7 +74,7 @@ dummy_data = [
     {
         "id": 21,
         "content": "Mình vừa đọc xong một cuốn sách rất hay về quản lý thời gian. Để mình chia sẻ vài điểm thú vị với mọi người! 📖",
-        "img": "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg",
+        "img": "sample.jpg",
         "date": "2024-07-29"
     },
     {
@@ -92,7 +92,7 @@ dummy_data = [
     {
         "id": 31,
         "content": "Chào mọi người, mình muốn tổ chức một buổi gặp mặt cuối tuần này. Ai có ý kiến gì không? 👫",
-        "img": "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg",
+        "img": "sample.jpg",
         "date": "2024-07-29"
     },
     {
@@ -127,7 +127,7 @@ def get_msg(offset, length) -> list[dict]:
 
 
 def get_img_name(imgid):
-    return "af2ddcc0-b401-4c13-914a-04cdc0ed2756.jpg"
+    return "sample.jpg"
 
 
 def create_img(msgid, img_name):

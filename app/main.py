@@ -1,8 +1,11 @@
+import os
 from typing import Annotated, Union
 
 from dotenv import load_dotenv
 from fastapi import FastAPI, status, Form, UploadFile, Depends
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+
 from authenticate import is_logged_in, auth_router
 import db
 from uuid import uuid4
@@ -10,16 +13,33 @@ from uuid import uuid4
 load_dotenv()
 app = FastAPI()
 
+origins = [
+    os.getenv("FE_URL"),
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.mount("/img", StaticFiles(directory="uploads"), name="uploads")
 app.include_router(auth_router)
 
 
 @app.get("/msg", status_code=status.HTTP_200_OK)
 async def get_msg(offset: int = 0, length: int = 15, logged_in: bool = Depends(is_logged_in)):
-    print(offset, length)
     if offset < 0:
         offset = 0
-    return db.get_msg(offset, length)
+    msg = db.get_msg(offset, length)
+    msg.reverse()
+    total = db.get_total_msg()
+    return {
+        "msg": msg,
+        "total": total
+    }
 
 
 @app.get("/msg/{msgid}", status_code=status.HTTP_200_OK)

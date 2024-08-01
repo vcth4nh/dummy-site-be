@@ -118,7 +118,7 @@ def create_msg(msg, img_name):
     return 0
 
 
-def get_msg(offset, length):
+def get_msg(offset, length) -> list[dict]:
     if offset > len(dummy_data):
         offset = len(dummy_data) - 1
 
@@ -136,3 +136,7 @@ def create_img(msgid, img_name):
 
 def delete_img(msgid):
     return None
+
+
+def get_total_msg():
+    return len(dummy_data)

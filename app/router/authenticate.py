@@ -3,7 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Annotated, Union
 
 import jwt
-from fastapi import Depends, FastAPI, HTTPException, status, APIRouter, Form
+from fastapi import Depends, HTTPException, status, APIRouter, Form
 from fastapi.security import OAuth2PasswordBearer
 from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel
@@ -19,9 +19,6 @@ class Token(BaseModel):
 
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
-
-app = FastAPI()
-
 
 def verify_password(password):
     return password == os.environ.get("PASSWORD")

@@ -1,5 +1,7 @@
 from fastapi import APIRouter, status, Form, UploadFile, Depends
 from typing import Annotated, Union
+
+from helper import upload_file, FileTooLarge
 from router.authenticate import is_logged_in
 from uuid import uuid4
 import db
@@ -37,15 +39,12 @@ async def add_msg(msg: Annotated[str, Form()] = None,
             'debug': "Empty msg and file"
         }
     img_name = None
-    if file:
-        if file.size > 50 * 1024 * 1024:
-            return {
-                'debug': "File must <= 50MiB"
-            }
-        ext = file.filename.split(".")[-1]
-        img_name = f"{uuid4().hex + ext}.{ext}"
-        with open(f"uploads/{img_name}", "wb") as f:
-            f.write(file.file.read())
+    try:
+        img_name = upload_file(file)
+    except FileTooLarge:
+        return {
+            'debug': "File must <= 50MiB"
+        }
     db.create_msg(msg, img_name)
 
 

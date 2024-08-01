@@ -22,6 +22,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/img", StaticFiles(directory="uploads"), name="uploads")
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
 app.include_router(auth_router)
 app.include_router(msg_router)

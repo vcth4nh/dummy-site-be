@@ -8,6 +8,7 @@ class FileTooLarge(Exception):
 
 
 def upload_file(file: UploadFile):
+    img_name = None
     if file:
         if file.size > 50 * 1024 * 1024:
             raise FileTooLarge("File must <= 50MiB")

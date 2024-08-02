@@ -38,20 +38,15 @@ async def add_msg(msg: Annotated[str, Form()] = None,
         return {
             'debug': "Empty msg and file"
         }
-    img_name = None
     try:
         img_name = upload_file(file)
     except FileTooLarge:
         return {
             'debug': "File must <= 50MiB"
         }
-    db.create_msg(msg, img_name)
+    return db.create_msg(msg, img_name)
 
 
 @msg_router.delete("/{msgid}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_msg(msgid: int, logged_in: bool = Depends(is_logged_in)):
-    if msgid is None:
-        return {
-            'debug': "Empty msgid"
-        }
     db.delete_msg(msgid)

@@ -6,6 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from router.authenticate import auth_router
 from router.msg import msg_router
+from router.theme import theme_router
 
 load_dotenv()
 app = FastAPI()
@@ -22,6 +23,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")
+app.mount("/uploads/msg", StaticFiles(directory="uploads/msg"), name="msg_media")
+app.mount("/uploads/bg", StaticFiles(directory="uploads/bg"), name="bg")
 app.include_router(auth_router)
 app.include_router(msg_router)

@@ -27,3 +27,4 @@ app.mount("/uploads/msg", StaticFiles(directory="uploads/msg"), name="msg_media"
 app.mount("/uploads/bg", StaticFiles(directory="uploads/bg"), name="bg")
 app.include_router(auth_router)
 app.include_router(msg_router)
+app.include_router(theme_router)

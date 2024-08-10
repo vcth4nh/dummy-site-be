@@ -1,4 +1,6 @@
+import os
 import time
+import sqlite3
 
 from helper import validate_hex_color
 
@@ -116,7 +118,24 @@ theme_dummy_data = {
 }
 
 
-def get_msgid(msgid):
+def open_db() -> tuple[sqlite3.Connection, sqlite3.Cursor]:
+    db_name = os.environ.get("DB_NAME")
+    conn = sqlite3.connect(db_name)
+    c = conn.cursor()
+    return conn, c
+
+
+def test_db():
+    with open_db() as (conn, cur):
+        # Create table
+        cur.executescript('''
+        CREATE TABLE IF NOT EXISTS msg (id INTEGER PRIMARY KEY, content TEXT, image TEXT, time DATETIME DEFAULT CURRENT_TIMESTAMP, deleted INTEGER DEFAULT 0);
+        CREATE TABLE IF NOT EXISTS theme (msg_color TEXT, bg_color TEXT, bg_img TEXT)
+        ''')
+        conn.commit()
+
+
+def get_msgid(msgid) -> dict:
     if msgid > len(dummy_data):
         return dummy_data[len(dummy_data)]
     return dummy_data[msgid]
@@ -129,7 +148,7 @@ def delete_msg(msgid):
             break
 
 
-def create_msg(msg, img_name):
+def create_msg(msg, img_name) -> None:
     global count
     epoch = int(time.time())
     count += 1
@@ -150,17 +169,25 @@ def get_msg(offset, length) -> list[dict]:
     return dummy_data[offset:limit]
 
 
-def get_img_name(imgid):
-    return "msg/sample.jpg"
-
-
-def create_img(msgid, img_name):
-    return None
-
-
-def delete_img(msgid):
-    return None
-
-
-def get_total_msg():
+def get_total_msg() -> int:
     return len(dummy_data)
+
+
+def get_theme() -> dict:
+    return theme_dummy_data
+
+
+def set_theme(msg_color, bg_color, bg_img_path):
+    if msg_color is not None and validate_hex_color(msg_color):
+        theme_dummy_data["msg_color"] = msg_color
+    if bg_color is not None and validate_hex_color(bg_color):
+        theme_dummy_data["bg_color"] = bg_color
+    if bg_img_path is not None:
+        theme_dummy_data["bg_img"] = bg_img_path
+    return theme_dummy_data
+
+# def set_theme_default():
+#     theme_dummy_data["msg_color"] = "#000000"
+#     theme_dummy_data["bg_color"] = "#000000"
+#     theme_dummy_data["bg_img"] = "msg/sample.jpg"
+#     return theme_dummy_data

@@ -4,6 +4,7 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
+from db import test_db
 from router.authenticate import auth_router
 from router.msg import msg_router
 from router.theme import theme_router
@@ -22,6 +23,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+test_db()
 
 app.mount("/uploads/msg", StaticFiles(directory="uploads/msg"), name="msg_media")
 app.mount("/uploads/bg", StaticFiles(directory="uploads/bg"), name="bg")

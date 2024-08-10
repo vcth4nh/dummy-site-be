@@ -13,9 +13,7 @@ theme_router = APIRouter(
 
 
 @theme_router.get("", status_code=status.HTTP_200_OK)
-async def get_theme(
-        # logged_in: bool = Depends(is_logged_in)
-):
+async def get_theme(logged_in: bool = Depends(is_logged_in)):
     return db.get_theme()
 
 
@@ -23,7 +21,7 @@ async def get_theme(
 async def set_dummy_theme(msg_color: Annotated[str, Form()] = None,
                           bg_color: Annotated[str, Form()] = None,
                           bg_img: UploadFile | None = None,
-                          # logged_in: bool = Depends(is_logged_in)
+                          logged_in: bool = Depends(is_logged_in)
                           ):
     print(msg_color, bg_color, bg_img)
     bg_img_path = upload_file(bg_img, 'bg')
